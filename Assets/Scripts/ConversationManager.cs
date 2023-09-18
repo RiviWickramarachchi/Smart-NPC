@@ -12,15 +12,9 @@ public class ConversationManager : MonoBehaviour
     [SerializeField] private TMP_InputField inputField;
     [SerializeField] private TMP_Text conversationText;
 
-    private OpenAIApi openai = new OpenAIApi("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");
+    private OpenAIApi openai;
+    private string openAIKey;
     private List<ChatMessage> messages = new List<ChatMessage>();
-
-    void Awake() {
-        messages.Add(new ChatMessage() {
-            Role = "system",
-			Content = "You are a Ready Player Me avatar, who exists in the metaverse.",
-        });
-    }
 
     public async void OnButtonClicked() {
         var message = inputField.text;
@@ -53,12 +47,12 @@ public class ConversationManager : MonoBehaviour
     }
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        openAIKey = JsonReader.Instance.openAIKeyValue;
+        openai = new OpenAIApi(openAIKey);
+        Debug.Log(openAIKey);
+        messages.Add(new ChatMessage() {
+            Role = "system",
+			Content = "You are a Ready Player Me avatar, who exists in the metaverse.",
+        });
     }
 }
